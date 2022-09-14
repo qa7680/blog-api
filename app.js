@@ -10,6 +10,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const User = require('./models/user');
 const path = require('path');
+const cors = require('cors');
 
 //Routers
 const userRouter = require('./routes/user');
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 //set up passport user/password authentication
 passport.use(new LocalStrategy (function verify(username, password, done) {
