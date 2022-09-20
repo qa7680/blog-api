@@ -15,7 +15,7 @@ exports.create_comment_post = (req, res, next) => {
 
 //get all comments on single post
 exports.get_comments = (req, res, next) => {
-    Comment.find({ postId: req.params.post_id }).populate('postId').exec((err, results) => {
+    Comment.find({ postId: req.params.post_id }).sort({ time: -1 }).populate('postId').exec((err, results) => {
         if (err) return next(err);
         res.json({comments: results});
     });

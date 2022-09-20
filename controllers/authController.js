@@ -29,10 +29,11 @@ exports.user_login = (req, res, next) => {
             })
         }
         if(err) res.send(err);
-        jwt.sign({_id: user._id, username: user.username}, process.env.JWT_KEY, { expiresIn: 1800 }, (err, token) => {
+        jwt.sign({_id: user._id, username: user.username }, process.env.JWT_KEY, { expiresIn: '30m' }, (err, token) => {
             if(err) return res.status(400).json(err);
-            //successful generate token
-            res.json({ token: token, user: { _id: user._id, username: user.username } });
+            const [,payload,] = token.split('.');
+            const expiryInfo = JSON.parse(Buffer.from(payload, 'base64'));
+            res.json({ token: token, user: { _id: user._id, username: user.username}, iat: expiryInfo.iat, exp: expiryInfo.exp});
         });
     })(req, res);
 };
