@@ -7,7 +7,7 @@ const passport = require('passport');
 router.get('/:post_id/comments', commentController.get_comments);
 
 //post request creating a comment
-router.post('/:post_id/comments', passport.authenticate('jwt', {session: false}),commentController.create_comment_post);
+router.post('/:post_id/comments', commentController.create_comment_post);
 
 //get request for a single comment
 router.get('/:post_id/comments/:comment_id', commentController.get_single_comment);
